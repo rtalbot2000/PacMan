@@ -18,11 +18,18 @@ namespace PacMan
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        Texture2D spriteSheet, background;
+        Rectangle[] Rectangles;
+        Rectangle[] Origin;
+        Rectangle backgroundRect;
 
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+
+            graphics.PreferredBackBufferWidth = 900;
+            graphics.PreferredBackBufferHeight = 800;
         }
 
         /// <summary>
@@ -34,6 +41,15 @@ namespace PacMan
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
+            IsMouseVisible = true;
+            backgroundRect = new Rectangle(50, 0, 800, 800);
+
+            Rectangles = new Rectangle[]
+            {
+
+            };
+
+            
 
             base.Initialize();
         }
@@ -48,6 +64,8 @@ namespace PacMan
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
             // TODO: use this.Content to load your game content here
+            background = this.Content.Load<Texture2D>("better");
+            spriteSheet = this.Content.Load<Texture2D>("spritesheet");
         }
 
         /// <summary>
@@ -67,7 +85,7 @@ namespace PacMan
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
             // TODO: Add your update logic here
@@ -81,9 +99,12 @@ namespace PacMan
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             // TODO: Add your drawing code here
+            spriteBatch.Begin();
+            spriteBatch.Draw(background, backgroundRect, Color.White);
+            spriteBatch.End();
 
             base.Draw(gameTime);
         }
