@@ -24,6 +24,8 @@ namespace PacMan
         Rectangle[] Origin;
         Rectangle backgroundRect;
 
+        PacMan pacMan;
+
         Rectangle[] collisions;
 
         MouseState oldMouse;
@@ -135,6 +137,9 @@ namespace PacMan
             spriteSheet = this.Content.Load<Texture2D>("spritesheet");
             testPixel = this.Content.Load<Texture2D>("pixel");
             font = this.Content.Load<SpriteFont>("SpriteFont1");
+
+            pacMan = new PacMan(new Rectangle(450, 428, 43, 43), testPixel, 
+                collisions);
         }
 
         /// <summary>
@@ -172,6 +177,8 @@ namespace PacMan
                 test = !test;
             }
 
+            pacMan.Update(gameTime, key, oldKey);
+
             oldMouse = mouse;
             oldKey = key;
 
@@ -203,6 +210,8 @@ namespace PacMan
                     spriteBatch.DrawString(font, i + "", measure, Color.LightGreen);
                 }
             }
+
+            pacMan.Draw(gameTime, spriteBatch);
             
             spriteBatch.End();
 
