@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,6 +21,7 @@ namespace PacMan
         public const int GALAGICA_BOSS = 9;
         public const int BELL = 10;
         public const int KEY = 11;
+        public const int DEATH = 12;
 
         private const int VALUE_PAC_DOT = 10;
         private const int VALUE_POWER_PELLET = 50;
@@ -32,6 +35,7 @@ namespace PacMan
         private const int VALUE_GALAGICA_BOSS = 2000;
         private const int VALUE_BELL = 3000;
         private const int VALUE_KEY = 5000;
+        private const int VALUE_DEATH = -500;
 
         private int[] scores = {
             VALUE_PAC_DOT,
@@ -45,34 +49,39 @@ namespace PacMan
             VALUE_PINEAPPLE,
             VALUE_GALAGICA_BOSS,
             VALUE_BELL,
-            VALUE_KEY
+            VALUE_KEY,
+            VALUE_DEATH
         };
 
         int mainScore = 0;
-        //pac-dot
-        Boolean isPacDotCollected = false;
-
-        //fruit
-        Boolean isCherryCollected = false;
-        Boolean isStrawberryCollected = false;
-        Boolean isOrangeCollected = false;
-        Boolean isAppleCollected = false;
-        Boolean isMellonCollected = false;
-        Boolean isPineappleCollected = false;
-        //Extra items
-        Boolean isBellCollected = false;
-        Boolean isKeyCollected = false;
-        //PowPellet
-        Boolean isPowePelletActive = false;
+        int lives;
+        int extraLifeCon = 0;
 
         int ghostIncrementor;
-        
-        public void collectItem(int item)
+
+        Vector2 scoreDisplay;
+
+        SpriteFont scoreFont;
+
+        Color scoreColor;
+
+        public ScoringSystem(Vector2 scoreDisplay, SpriteFont scoreFont, Color scoreColor)
+        {
+            this.scoreDisplay = scoreDisplay;
+            this.scoreFont = scoreFont;
+            this.scoreColor = scoreColor;
+            extraLifeCon = 0;
+            lives = 3;
+        }
+
+        public Boolean collectItem(int item)
         {
             mainScore += scores[item];
 
             if (item == POWER_PELLET)
                 ghostIncrementor = 0;
+            if (item == DEATH)
+                lives--;
             if(item == VALUE_VULNERABLE_GHOST)
             {
                 
@@ -107,6 +116,21 @@ namespace PacMan
                 
             }
 
+            Boolean extralife = false;
+            if (lives < 5)
+            {
+                if (mainScore / 10000 > extraLifeCon)
+                {
+                    extraLifeCon = mainScore / 10000;
+                    extralife = true;
+                    lives++;
+                }
+            }
+            return extralife;
+        }
+        public void Draw(SpriteBatch spriteBatch)
+        {
+            spriteBatch.DrawString(scoreFont, "HighScore"+mainScore,  scoreDisplay, scoreColor);
         }
     }
 }
