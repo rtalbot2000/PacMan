@@ -23,6 +23,8 @@ namespace PacMan
         Rectangle[] Origin;
         Rectangle backgroundRect;
 
+      
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -48,9 +50,7 @@ namespace PacMan
             {
 
             };
-
             
-
             base.Initialize();
         }
 
@@ -89,7 +89,7 @@ namespace PacMan
                 this.Exit();
 
             // TODO: Add your update logic here
-
+            
             base.Update(gameTime);
         }
 
