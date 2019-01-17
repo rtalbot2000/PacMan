@@ -19,10 +19,9 @@ namespace PacMan
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D spriteSheet, background;
-        Rectangle[] Rectangles;
-        Rectangle[] Origin;
         Rectangle backgroundRect;
-
+        Pellet[] pelletArray;
+        int j, i;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -44,13 +43,13 @@ namespace PacMan
             IsMouseVisible = true;
             backgroundRect = new Rectangle(50, 0, 800, 800);
 
-            Rectangles = new Rectangle[]
+            pelletArray = new Pellet[243];
+
+            for (i = 0; i < 13; i++)
             {
-
-            };
-
-            
-
+                //pelletXLocation += 29;
+                pelletArray[i] = new Pellet(Content.Load<Texture2D>("white"), new Rectangle(30 * i, 20, 7, 7), true);
+            }
             base.Initialize();
         }
 
@@ -90,6 +89,11 @@ namespace PacMan
 
             // TODO: Add your update logic here
 
+            //for (i = 0; i < 13; i++)
+            //{
+            //    pelletArray[i].Update(gameTime);
+            //}
+
             base.Update(gameTime);
         }
 
@@ -104,6 +108,10 @@ namespace PacMan
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             spriteBatch.Draw(background, backgroundRect, Color.White);
+            for (i = 0; i < 13; i++)
+            {
+                spriteBatch.Draw(pelletArray[i].PelletText, pelletArray[i].PelletRect, Color.White);
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);

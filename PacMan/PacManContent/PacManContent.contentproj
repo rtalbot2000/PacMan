@@ -44,15 +44,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="better2.png">
-      <Name>better2</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="download %281%29.png">
-      <Name>download %281%29</Name>
+    <Compile Include="white.jpg">
+      <Name>white</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
