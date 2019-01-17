@@ -24,6 +24,7 @@ namespace PacMan
         Rectangle[] Origin;
         Rectangle backgroundRect;
 
+
         Rectangle[] collisions;
 
         MouseState oldMouse;
@@ -112,7 +113,7 @@ namespace PacMan
                 new Rectangle(478, 321, 74, 13),
                 new Rectangle(534, 321, 18, 105),
                 new Rectangle(347, 411, 205, 16), // 45
-                new Rectangle(347, 322, 18, 89)
+                new Rectangle(347, 322, 18, 89),
             };
 
             test = false;
@@ -172,6 +173,8 @@ namespace PacMan
                 test = !test;
             }
 
+
+
             oldMouse = mouse;
             oldKey = key;
 
@@ -189,8 +192,8 @@ namespace PacMan
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             spriteBatch.Draw(background, backgroundRect, Color.White);
-            
-            if(test)
+
+            if (test)
             {
                 for (int i = 0; i < collisions.Length; i++)
                 {
