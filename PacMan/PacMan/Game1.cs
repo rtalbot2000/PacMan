@@ -34,6 +34,28 @@ namespace PacMan
 
         KeyboardState oldKey;
 
+        struct SprtieStruct
+        {
+            public Texture2D texutre;
+            public Vector2 position;
+            public Rectangle source;
+            public Color color;
+            public float rotation;
+            public Vector2 origin;
+            public float scale;
+            public SpriteEffects effect;
+            public float layerDepth;
+            public Boolean visible;
+            public Boolean width;
+        }
+        SprtieStruct Sprite;
+        SprtieStruct Blinky;//Red
+
+        Ghost Blinky2;
+        Ghost Pinky;
+        Ghost Clyde;
+        Ghost Inky;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -116,8 +138,16 @@ namespace PacMan
             };
 
             test = false;
-            oldKey = Keyboard.GetState();
 
+            Blinky.position = new Vector2(0, 0);
+            Blinky.source = new Rectangle(4, 65, 14, 14);
+            Blinky.color = Color.White;
+            Blinky.rotation = 0;
+            Blinky.origin = new Vector2(0, 0);
+            Blinky.scale = 2;
+            Blinky.effect = SpriteEffects.None;
+            oldKey = Keyboard.GetState();
+           
             base.Initialize();
         }
 
@@ -132,9 +162,16 @@ namespace PacMan
 
             // TODO: use this.Content to load your game content here
             background = this.Content.Load<Texture2D>("better");
-            spriteSheet = this.Content.Load<Texture2D>("spritesheet");
+            Texture2D spriteSheet = this.Content.Load<Texture2D>("spritesheet");
             testPixel = this.Content.Load<Texture2D>("pixel");
             font = this.Content.Load<SpriteFont>("SpriteFont1");
+
+            Blinky.texutre = spriteSheet;
+
+            Blinky2 = new Ghost(spriteSheet, new Rectangle(4, 65, 14, 14), new Vector2(430, 275), Color.White);
+            Pinky = new Ghost(spriteSheet, new Rectangle(4, 81, 14, 14), new Vector2(370, 350), Color.White);
+            Clyde = new Ghost(spriteSheet, new Rectangle(4, 113, 14, 14), new Vector2(430, 350), Color.White);
+            Inky = new Ghost(spriteSheet, new Rectangle(4, 97, 14, 14), new Vector2(490, 350), Color.White);
         }
 
         /// <summary>
@@ -190,7 +227,8 @@ namespace PacMan
             spriteBatch.Begin();
             spriteBatch.Draw(background, backgroundRect, Color.White);
             
-            if(test)
+
+            if (test)
             {
                 for (int i = 0; i < collisions.Length; i++)
                 {
@@ -203,7 +241,10 @@ namespace PacMan
                     spriteBatch.DrawString(font, i + "", measure, Color.LightGreen);
                 }
             }
-            
+            Blinky2.Draw(spriteBatch);
+            Pinky.Draw(spriteBatch);
+            Clyde.Draw(spriteBatch);
+            Inky.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);
