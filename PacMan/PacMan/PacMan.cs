@@ -31,7 +31,7 @@ namespace PacMan
                 return;
             }
 
-            Rectangle ahead = new Rectangle(rect.Center.X, rect.Center.Y, 1, 1);
+            Rectangle ahead = rect;
 
             switch(dir)
             {
@@ -118,6 +118,64 @@ namespace PacMan
             if(!willCollide)
             {
                 rect = moveRect;
+            }
+
+            Rectangle c1 = Rectangle.Empty, c2 = Rectangle.Empty, off1 = rect, off2 = rect;
+
+            if(dir == Direction.UP || dir == Direction.DOWN)
+            {
+                off1.X -= 7;
+                off2.X += 7;
+
+                for(int i = 0; i < coll.Length; i++)
+                {
+                    Rectangle r = coll[i];
+                    if (off1.Intersects(r))
+                    {
+                        c1 = r;
+                        Console.WriteLine("Left: " + i);
+                    }
+                    if (off2.Intersects(r))
+                    {
+                        c2 = r;
+                        Console.WriteLine("Right: " + i);
+                    }
+
+                    if (!c1.IsEmpty && !c2.IsEmpty)
+                    {
+                        int diff = c2.X - (c1.X + c1.Width);
+
+                        rect.X = c2.X - diff / 2 - rect.Width / 2;
+                        break;
+                    }
+                }
+            } else
+            {
+                off1.Y -= 7;
+                off2.Y += 7;
+                for (int i = 0; i < coll.Length; i++)
+                {
+                    Rectangle r = coll[i];
+                    if (off1.Intersects(r))
+                    {
+                        c1 = r;
+                        Console.WriteLine("Up: " + i);
+                    }
+                    if (off2.Intersects(r))
+                    {
+                        c2 = r;
+                        Console.WriteLine("Down: " + i);
+                    }
+
+                    if (!c1.IsEmpty && !c2.IsEmpty)
+                    {
+                        int diff = c2.Y - (c1.Y + c1.Height);
+
+                        rect.Y = c2.Y - diff / 2 - rect.Height / 2;
+                        break;
+                    }
+                }
+                
             }
         }
 

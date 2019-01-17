@@ -20,8 +20,6 @@ namespace PacMan
         SpriteBatch spriteBatch;
         Texture2D spriteSheet, background, testPixel;
 
-        Rectangle[] Rectangles;
-        Rectangle[] Origin;
         Rectangle backgroundRect;
 
         PacMan pacMan;
@@ -57,11 +55,6 @@ namespace PacMan
             IsMouseVisible = true;
             backgroundRect = new Rectangle(50, 0, 800, 800);
 
-            Rectangles = new Rectangle[]
-            {
-
-            };
-
             this.IsMouseVisible = true;
 
             oldMouse = Mouse.GetState();
@@ -69,41 +62,41 @@ namespace PacMan
             collisions = new Rectangle[]
             {
                 new Rectangle(50, 0, 14, 246), // 0
-                new Rectangle(0, 242, 206, 106),
-                new Rectangle(0, 397, 206, 107),
+                new Rectangle(0, 242, 208, 106),
+                new Rectangle(0, 397, 208, 107),
                 new Rectangle(50, 489, 15, 311),
                 new Rectangle(50, 0, 800, 12),
                 new Rectangle(433, 0, 33, 118), // 5
                 new Rectangle(835, 0, 14, 256),
                 new Rectangle(692, 244, 900 - 692, 104),
-                new Rectangle(692, 397, 900 - 692, 107),
+                new Rectangle(692, 398, 900 - 692, 107),
                 new Rectangle(835, 488, 15, 311),
                 new Rectangle(50, 784, 800, 16), // 10
-                new Rectangle(119, 62, 87, 56),
+                new Rectangle(119, 62, 89, 56),
                 new Rectangle(261, 62, 118, 56),
                 new Rectangle(520, 62, 116, 56),
                 new Rectangle(692, 62, 89, 56),
-                new Rectangle(119, 165, 87, 30), // 15
-                new Rectangle(262, 166, 33, 182),
-                new Rectangle(290, 240, 89, 30),
+                new Rectangle(119, 165, 89, 30), // 15
+                new Rectangle(262, 166, 31, 182),
+                new Rectangle(290, 242, 91, 31),
                 new Rectangle(348, 166, 204, 29),
-                new Rectangle(433, 188, 33, 82),
+                new Rectangle(433, 188, 33, 85),
                 new Rectangle(605, 166, 33, 182), // 20
-                new Rectangle(520, 240, 117, 29),
-                new Rectangle(261, 398, 32, 106),
+                new Rectangle(520, 242, 91, 31),
+                new Rectangle(261, 397, 32, 107),
                 new Rectangle(606, 398, 32, 106),
                 new Rectangle(431, 474, 35, 107),
                 new Rectangle(347, 474, 204, 30), // 25
-                new Rectangle(776, 630, 73, 32),
+                new Rectangle(776, 630, 73, 31),
                 new Rectangle(50, 630, 72, 30),
                 new Rectangle(120, 552, 86, 31),
                 new Rectangle(178, 581, 28, 78),
                 new Rectangle(263, 552, 116, 30), // 30
-                new Rectangle(519, 554, 116, 28),
+                new Rectangle(519, 553, 118, 30),
                 new Rectangle(692, 553, 86, 28),
-                new Rectangle(692, 553, 30, 106),
+                new Rectangle(692, 553, 30, 107),
                 new Rectangle(120, 708, 259, 28),
-                new Rectangle(262, 631, 30, 77), // 35
+                new Rectangle(263, 631, 31, 77), // 35
                 new Rectangle(346, 631, 205, 30),
                 new Rectangle(432, 631, 35, 105),
                 new Rectangle(519, 708, 259, 28),
@@ -138,7 +131,7 @@ namespace PacMan
             testPixel = this.Content.Load<Texture2D>("pixel");
             font = this.Content.Load<SpriteFont>("SpriteFont1");
 
-            pacMan = new PacMan(new Rectangle(450, 428, 43, 43), testPixel, 
+            pacMan = new PacMan(new Rectangle(450, 427, 46, 46), testPixel, 
                 collisions);
         }
 
