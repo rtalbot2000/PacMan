@@ -24,6 +24,7 @@ namespace PacMan
             new Rectangle(128, 48, 16, 16),
             new Rectangle(144, 48, 16, 16)
         };
+        private int[] time = new int[] {10, 9, 8, 7, 6, 5, 4, 2};
         public Fruit(int level)
         {
             fruitRect = fruitRects[level];
@@ -31,6 +32,10 @@ namespace PacMan
         public void setRect(int level)
         {
             fruitRect = fruitRects[level];
+        }
+        protected Boolean DrawFruit()
+        {
+
         }
     }
 }
