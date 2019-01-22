@@ -58,6 +58,8 @@ namespace PacMan
         Ghost Inky;
 
         int currentFrame;
+        int BlinkyX = 430;
+        int BlinkyY = 275;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -141,7 +143,7 @@ namespace PacMan
             };
 
             test = false;
-
+            
             Blinky.position = new Vector2(0, 0);
             Blinky.source = new Rectangle(4, 65, 14, 14);
             Blinky.color = Color.White;
@@ -172,7 +174,9 @@ namespace PacMan
 
             Blinky.texutre = spriteSheet;
 
-            Blinky2 = new Ghost(spriteSheet, new Rectangle(4, 65, 14, 14), new Vector2(430, 275), Color.White);
+            Console.WriteLine("{BlinkyX}:is it incrementing " + BlinkyX);
+            Console.WriteLine("{BlinkyY}:is it incrementing " + BlinkyY);
+            Blinky2 = new Ghost(spriteSheet, new Rectangle(4, 65, 14, 14), new Vector2(BlinkyX, BlinkyY), Color.White);
             Pinky = new Ghost(spriteSheet, new Rectangle(4, 81, 14, 14), new Vector2(370, 350), Color.White);
             Clyde = new Ghost(spriteSheet, new Rectangle(4, 113, 14, 14), new Vector2(430, 350), Color.White);
             Inky = new Ghost(spriteSheet, new Rectangle(4, 97, 14, 14), new Vector2(490, 350), Color.White);
@@ -217,11 +221,13 @@ namespace PacMan
             oldKey = key;
 
             currentFrame++;
-            Console.WriteLine("{currentFrame}:is it incrementing " + currentFrame);
+
             if (currentFrame > 1)
             {
                 currentFrame = 0;
             }
+            
+
             base.Update(gameTime);
         }
 

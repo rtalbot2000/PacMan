@@ -27,7 +27,7 @@ namespace PacMan
         }
         SprtieStruct Sprite;
         int currentFrame;
-        double time = 1 / 60;
+        
         public Ghost(Texture2D enemie, Rectangle enemieSource, Vector2 enemiePosition, Color enemieColor)
         {
             Sprite.texutre = enemie;
