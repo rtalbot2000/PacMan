@@ -7,6 +7,6 @@ namespace PacMan
 {
     enum Direction
     {
-        LEFT, RIGHT, UP, DOWN
+        RIGHT = 0, LEFT = 1, UP = 2, DOWN = 3
     }
 }

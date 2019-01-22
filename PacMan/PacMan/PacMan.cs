@@ -11,64 +11,54 @@ namespace PacMan
     class PacMan
     {
         Direction dir;
-        Rectangle rect;
+        Rectangle rect, source, ahead, left, right;
         Texture2D text;
         Rectangle[] coll;
+        int state, timer;
+        bool dead;
 
-        public PacMan(Rectangle rect, Texture2D text, Rectangle[] collisions)
+        public PacMan(Rectangle rect, Texture2D text, Rectangle[] collisions,
+            Rectangle left, Rectangle right)
         {
             this.rect = rect;
             this.text = text;
             this.coll = collisions;
+            this.left = left;
+            this.right = right;
 
+            this.source = Rectangle.Empty;
             this.dir = Direction.LEFT;
-        }
+            this.ahead = Rectangle.Empty;
+            this.dead = false;
 
-        public void switchDir(Direction dir)
-        {
-            if(this.dir == dir)
-            {
-                return;
-            }
-
-            Rectangle ahead = rect;
-
-            switch(dir)
-            {
-                case Direction.RIGHT:
-                    ahead.X += 4;
-                    break;
-                case Direction.LEFT:
-                    ahead.X -= 4;
-                    break;
-                case Direction.UP:
-                    ahead.Y -= 4;
-                    break;
-                case Direction.DOWN:
-                    ahead.Y += 4;
-                    break;
-            }
-
-            bool canTurn = true;
-
-            foreach(Rectangle r in coll)
-            {
-                if(ahead.Intersects(r))
-                {
-                    canTurn = false;
-                    break;
-                }
-            }
-
-            if(canTurn)
-            {
-                this.dir = dir;
-            }
+            state = 0;
+            timer = 0;
         }
 
         public void Update(GameTime gameTime, KeyboardState key, 
             KeyboardState oldKey)
         {
+            if(dead)
+            {
+                timer++;
+
+                if(timer == 15)
+                {
+                    timer = 0;
+                    if(state < 11)
+                    {
+                        state++;
+                    }
+                }
+
+                source = new Rectangle(36 + 16 * state, 1, 14, 14);
+
+                if (state > 8)
+                    source.Height++;
+
+                return;
+            }
+
             if(key.IsKeyDown(Keys.Right) && !oldKey.IsKeyDown(Keys.Right))
             {
                 switchDir(Direction.RIGHT);
@@ -88,19 +78,21 @@ namespace PacMan
 
             Rectangle moveRect = rect;
 
+            int velo = 2;
+
             switch(dir)
             {
                 case Direction.RIGHT:
-                    moveRect.X += 1;
+                    moveRect.X += velo;
                     break;
                 case Direction.LEFT:
-                    moveRect.X -= 1;
+                    moveRect.X -= velo;
                     break;
                 case Direction.UP:
-                    moveRect.Y -= 1;
+                    moveRect.Y -= velo;
                     break;
                 case Direction.DOWN:
-                    moveRect.Y += 1;
+                    moveRect.Y += velo;
                     break;
             }
 
@@ -122,23 +114,21 @@ namespace PacMan
 
             Rectangle c1 = Rectangle.Empty, c2 = Rectangle.Empty, off1 = rect, off2 = rect;
 
-            if(dir == Direction.UP || dir == Direction.DOWN)
+            if (dir == Direction.UP || dir == Direction.DOWN)
             {
-                off1.X -= 7;
-                off2.X += 7;
+                off1.X -= rect.Width / 2;
+                off2.X += rect.Width / 2;
 
-                for(int i = 0; i < coll.Length; i++)
+                for (int i = 0; i < coll.Length; i++)
                 {
                     Rectangle r = coll[i];
                     if (off1.Intersects(r))
                     {
                         c1 = r;
-                        Console.WriteLine("Left: " + i);
                     }
                     if (off2.Intersects(r))
                     {
                         c2 = r;
-                        Console.WriteLine("Right: " + i);
                     }
 
                     if (!c1.IsEmpty && !c2.IsEmpty)
@@ -149,22 +139,21 @@ namespace PacMan
                         break;
                     }
                 }
-            } else
+            }
+            else
             {
-                off1.Y -= 7;
-                off2.Y += 7;
+                off1.Y -= rect.Height / 2;
+                off2.Y += rect.Height / 2;
                 for (int i = 0; i < coll.Length; i++)
                 {
                     Rectangle r = coll[i];
                     if (off1.Intersects(r))
                     {
                         c1 = r;
-                        Console.WriteLine("Up: " + i);
                     }
                     if (off2.Intersects(r))
                     {
                         c2 = r;
-                        Console.WriteLine("Down: " + i);
                     }
 
                     if (!c1.IsEmpty && !c2.IsEmpty)
@@ -175,13 +164,92 @@ namespace PacMan
                         break;
                     }
                 }
-                
+
+            }
+
+            if(rect.X + rect.Width < left.X + left.Width)
+            {
+                rect.X = right.X;
+            } else if(rect.X > right.X)
+            {
+                rect.X = left.X + left.Width;
+            }
+
+            timer++;
+
+            if(timer >= 15)
+            {
+                timer = 0;
+
+                if(state == 0)
+                {
+                    state = 1;
+                } else
+                {
+                    state = 0;
+                }
+            }
+            source = new Rectangle(3 + 16 * state, 1 + (16 * (int)dir), 14, 14);
+        }
+
+        public void GameOver()
+        {
+            this.dead = true;
+
+            timer = 0;
+            state = 0;
+        }
+
+        public void switchDir(Direction dir)
+        {
+            if (this.dir == dir)
+            {
+                return;
+            }
+
+            this.ahead = new Rectangle(rect.X, rect.Y, rect.Width, rect.Height);
+
+            switch (dir)
+            {
+                case Direction.RIGHT:
+                    ahead.X += 15;
+                    break;
+                case Direction.LEFT:
+                    ahead.X -= 15;
+                    break;
+                case Direction.UP:
+                    ahead.Y -= 15;
+                    break;
+                case Direction.DOWN:
+                    ahead.Y += 15;
+                    break;
+            }
+
+            bool canTurn = true;
+
+            foreach (Rectangle r in coll)
+            {
+                if (ahead.Intersects(r))
+                {
+                    canTurn = false;
+                    break;
+                }
+            }
+
+            if (canTurn)
+            {
+                this.dir = dir;
             }
         }
 
         public void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(text, rect, Color.DarkGoldenrod);
+            if(Game1.TEST)
+            {
+                spriteBatch.Draw(text, ahead, source, Color.DarkRed);
+            }
+
+            spriteBatch.Draw(text, rect, source, Color.White);
         }
     }
 }

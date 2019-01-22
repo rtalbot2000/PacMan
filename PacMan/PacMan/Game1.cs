@@ -30,9 +30,11 @@ namespace PacMan
 
         SpriteFont font;
 
-        bool test;
+        public static bool TEST;
 
         KeyboardState oldKey;
+
+        Rectangle left, right;
 
         public Game1()
         {
@@ -91,12 +93,12 @@ namespace PacMan
                 new Rectangle(50, 630, 72, 30),
                 new Rectangle(120, 552, 86, 31),
                 new Rectangle(178, 581, 28, 78),
-                new Rectangle(263, 552, 116, 30), // 30
+                new Rectangle(262, 552, 117, 30), // 30
                 new Rectangle(519, 553, 118, 30),
                 new Rectangle(692, 553, 86, 28),
                 new Rectangle(692, 553, 30, 107),
                 new Rectangle(120, 708, 259, 28),
-                new Rectangle(263, 631, 31, 77), // 35
+                new Rectangle(262, 631, 32, 77), // 35
                 new Rectangle(346, 631, 205, 30),
                 new Rectangle(432, 631, 35, 105),
                 new Rectangle(519, 708, 259, 28),
@@ -110,7 +112,11 @@ namespace PacMan
                 new Rectangle(347, 322, 18, 89)
             };
 
-            test = false;
+            left = new Rectangle(0, 0, 50, graphics.PreferredBackBufferHeight);
+            right = new Rectangle(graphics.PreferredBackBufferWidth - 50, 0, 50,
+                graphics.PreferredBackBufferHeight);
+
+            TEST = false;
             oldKey = Keyboard.GetState();
 
             base.Initialize();
@@ -131,9 +137,10 @@ namespace PacMan
             testPixel = this.Content.Load<Texture2D>("pixel");
             font = this.Content.Load<SpriteFont>("SpriteFont1");
 
-            pacMan = new PacMan(new Rectangle(450, 427, 46, 46), testPixel, 
-                collisions);
+            pacMan = new PacMan(new Rectangle(450, 427, 38, 38), spriteSheet, 
+                collisions, left, right);
         }
+
 
         /// <summary>
         /// UnloadContent will be called once per game and is the place to unload
@@ -167,7 +174,12 @@ namespace PacMan
 
             if(key.IsKeyDown(Keys.X) && !oldKey.IsKeyDown(Keys.X))
             {
-                test = !test;
+                TEST = !TEST;
+            }
+
+            if(key.IsKeyDown(Keys.M) && !oldKey.IsKeyDown(Keys.M))
+            {
+                pacMan.GameOver();
             }
 
             pacMan.Update(gameTime, key, oldKey);
@@ -190,7 +202,7 @@ namespace PacMan
             spriteBatch.Begin();
             spriteBatch.Draw(background, backgroundRect, Color.White);
             
-            if(test)
+            if(TEST)
             {
                 for (int i = 0; i < collisions.Length; i++)
                 {
@@ -205,7 +217,10 @@ namespace PacMan
             }
 
             pacMan.Draw(gameTime, spriteBatch);
-            
+
+            spriteBatch.Draw(testPixel, left, Color.Black);
+            spriteBatch.Draw(testPixel, right, Color.Black);
+
             spriteBatch.End();
 
             base.Draw(gameTime);
