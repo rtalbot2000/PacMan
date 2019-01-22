@@ -18,12 +18,21 @@ namespace PacMan
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Texture2D spriteSheet, background;
+        Texture2D spriteSheet, background, testPixel;
+
         Rectangle[] Rectangles;
         Rectangle[] Origin;
         Rectangle backgroundRect;
 
-      
+        Rectangle[] collisions;
+
+        MouseState oldMouse;
+
+        SpriteFont font;
+
+        bool test;
+
+        KeyboardState oldKey;
 
         public Game1()
         {
@@ -50,7 +59,65 @@ namespace PacMan
             {
 
             };
-            
+
+            this.IsMouseVisible = true;
+
+            oldMouse = Mouse.GetState();
+
+            collisions = new Rectangle[]
+            {
+                new Rectangle(50, 0, 14, 246), // 0
+                new Rectangle(0, 242, 206, 106),
+                new Rectangle(0, 397, 206, 107),
+                new Rectangle(50, 489, 15, 311),
+                new Rectangle(50, 0, 800, 12),
+                new Rectangle(433, 0, 33, 118), // 5
+                new Rectangle(835, 0, 14, 256),
+                new Rectangle(692, 244, 900 - 692, 104),
+                new Rectangle(692, 397, 900 - 692, 107),
+                new Rectangle(835, 488, 15, 311),
+                new Rectangle(50, 784, 800, 16), // 10
+                new Rectangle(119, 62, 87, 56),
+                new Rectangle(261, 62, 118, 56),
+                new Rectangle(520, 62, 116, 56),
+                new Rectangle(692, 62, 89, 56),
+                new Rectangle(119, 165, 87, 30), // 15
+                new Rectangle(262, 166, 33, 182),
+                new Rectangle(290, 240, 89, 30),
+                new Rectangle(348, 166, 204, 29),
+                new Rectangle(433, 188, 33, 82),
+                new Rectangle(605, 166, 33, 182), // 20
+                new Rectangle(520, 240, 117, 29),
+                new Rectangle(261, 398, 32, 106),
+                new Rectangle(606, 398, 32, 106),
+                new Rectangle(431, 474, 35, 107),
+                new Rectangle(347, 474, 204, 30), // 25
+                new Rectangle(776, 630, 73, 32),
+                new Rectangle(50, 630, 72, 30),
+                new Rectangle(120, 552, 86, 31),
+                new Rectangle(178, 581, 28, 78),
+                new Rectangle(263, 552, 116, 30), // 30
+                new Rectangle(519, 554, 116, 28),
+                new Rectangle(692, 553, 86, 28),
+                new Rectangle(692, 553, 30, 106),
+                new Rectangle(120, 708, 259, 28),
+                new Rectangle(262, 631, 30, 77), // 35
+                new Rectangle(346, 631, 205, 30),
+                new Rectangle(432, 631, 35, 105),
+                new Rectangle(519, 708, 259, 28),
+                new Rectangle(605, 631, 31, 79),
+                new Rectangle(692, 166, 87, 29), // 40
+                new Rectangle(348, 321, 74, 13),
+                new Rectangle(422, 321, 56, 13),
+                new Rectangle(478, 321, 74, 13),
+                new Rectangle(534, 321, 18, 105),
+                new Rectangle(347, 411, 205, 16), // 45
+                new Rectangle(347, 322, 18, 89)
+            };
+
+            test = false;
+            oldKey = Keyboard.GetState();
+
             base.Initialize();
         }
 
@@ -66,6 +133,8 @@ namespace PacMan
             // TODO: use this.Content to load your game content here
             background = this.Content.Load<Texture2D>("better");
             spriteSheet = this.Content.Load<Texture2D>("spritesheet");
+            testPixel = this.Content.Load<Texture2D>("pixel");
+            font = this.Content.Load<SpriteFont>("SpriteFont1");
         }
 
         /// <summary>
@@ -89,7 +158,23 @@ namespace PacMan
                 this.Exit();
 
             // TODO: Add your update logic here
-            
+            MouseState mouse = Mouse.GetState();
+            KeyboardState key = Keyboard.GetState();
+
+            if(mouse.LeftButton == ButtonState.Pressed &&
+                oldMouse.LeftButton != ButtonState.Pressed)
+            {
+                Console.WriteLine(mouse.X + " " + mouse.Y);
+            }
+
+            if(key.IsKeyDown(Keys.X) && !oldKey.IsKeyDown(Keys.X))
+            {
+                test = !test;
+            }
+
+            oldMouse = mouse;
+            oldKey = key;
+
             base.Update(gameTime);
         }
 
@@ -104,6 +189,21 @@ namespace PacMan
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             spriteBatch.Draw(background, backgroundRect, Color.White);
+            
+            if(test)
+            {
+                for (int i = 0; i < collisions.Length; i++)
+                {
+                    Rectangle r = collisions[i];
+
+                    spriteBatch.Draw(testPixel, r, Color.White);
+
+                    Vector2 measure = font.MeasureString(i + "");
+                    measure = new Vector2(r.Center.X - measure.X / 2, r.Center.Y - measure.Y / 2);
+                    spriteBatch.DrawString(font, i + "", measure, Color.LightGreen);
+                }
+            }
+            
             spriteBatch.End();
 
             base.Draw(gameTime);
