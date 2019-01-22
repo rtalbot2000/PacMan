@@ -42,7 +42,7 @@ namespace PacMan
             Content.RootDirectory = "Content";
 
             graphics.PreferredBackBufferWidth = 900;
-            graphics.PreferredBackBufferHeight = 800;
+            graphics.PreferredBackBufferHeight = 900;
         }
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace PacMan
         {
             // TODO: Add your initialization logic here
             IsMouseVisible = true;
-            backgroundRect = new Rectangle(50, 0, 800, 800);
+            backgroundRect = new Rectangle(50, 50, 800, 800);
 
             this.IsMouseVisible = true;
 
@@ -112,6 +112,11 @@ namespace PacMan
                 new Rectangle(347, 322, 18, 89)
             };
 
+            for(int i = 0; i < collisions.Length; i++)
+            {
+                collisions[i].Y += 50;
+            }
+
             left = new Rectangle(0, 0, 50, graphics.PreferredBackBufferHeight);
             right = new Rectangle(graphics.PreferredBackBufferWidth - 50, 0, 50,
                 graphics.PreferredBackBufferHeight);
@@ -137,7 +142,7 @@ namespace PacMan
             testPixel = this.Content.Load<Texture2D>("pixel");
             font = this.Content.Load<SpriteFont>("SpriteFont1");
 
-            pacMan = new PacMan(new Rectangle(450, 427, 38, 38), spriteSheet, 
+            pacMan = new PacMan(new Rectangle(432, 480, 38, 38), spriteSheet, 
                 collisions, left, right);
         }
 
