@@ -45,6 +45,7 @@ namespace PacMan
             public float scale;
             public SpriteEffects effect;
             public float layerDepth;
+            public int currentFrame;
             public Boolean visible;
             public Boolean width;
         }
@@ -56,6 +57,7 @@ namespace PacMan
         Ghost Clyde;
         Ghost Inky;
 
+        int currentFrame;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -75,6 +77,7 @@ namespace PacMan
         {
             // TODO: Add your initialization logic here
             IsMouseVisible = true;
+            currentFrame = 0;
             backgroundRect = new Rectangle(50, 0, 800, 800);
 
             Rectangles = new Rectangle[]
@@ -145,6 +148,7 @@ namespace PacMan
             Blinky.rotation = 0;
             Blinky.origin = new Vector2(0, 0);
             Blinky.scale = 2;
+            Blinky.currentFrame = currentFrame;
             Blinky.effect = SpriteEffects.None;
             oldKey = Keyboard.GetState();
            
@@ -212,6 +216,12 @@ namespace PacMan
             oldMouse = mouse;
             oldKey = key;
 
+            currentFrame++;
+            Console.WriteLine("{currentFrame}:is it incrementing " + currentFrame);
+            if (currentFrame > 1)
+            {
+                currentFrame = 0;
+            }
             base.Update(gameTime);
         }
 
