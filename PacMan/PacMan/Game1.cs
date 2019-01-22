@@ -47,8 +47,43 @@ namespace PacMan
 
             for (i = 0; i < 13; i++)
             {
-                //pelletXLocation += 29;
-                pelletArray[i] = new Pellet(Content.Load<Texture2D>("white"), new Rectangle(30 * i, 20, 7, 7), true);
+                pelletArray[i] = new Pellet(Content.Load<Texture2D>("white"), new Rectangle(83 + 27 * i, 30, 7, 7), true);
+            }
+            for (i = 13; i < 26; i++)
+            {
+                pelletArray[i] = new Pellet(Content.Load<Texture2D>("white"), new Rectangle(135 + 27 * i, 30, 7, 7), true);
+            }
+            if (i == 26)
+            {
+                pelletArray[i] = new Pellet(Content.Load<Texture2D>("spritesheet"), new Rectangle(80, 60, 20, 20), false);
+            }
+            for (i = 27; i < 34; i++)
+            {
+                pelletArray[i] = new Pellet(Content.Load<Texture2D>("white"), new Rectangle(83, -675 + 27 * i, 7, 7), true);
+            }
+            for (i = 34; i < 37; i++)
+            {
+                pelletArray[i] = new Pellet(Content.Load<Texture2D>("white"), new Rectangle(230, -860 + 27 * i, 7, 7), true);
+            }
+            for (i = 37; i < 40; i++)
+            {
+                pelletArray[i] = new Pellet(Content.Load<Texture2D>("white"), new Rectangle(407, -943 + 27 * i, 7, 7), true);
+            }
+            for (i = 40; i < 43; i++)
+            {
+                pelletArray[i] = new Pellet(Content.Load<Texture2D>("white"), new Rectangle(486, -1024 + 27 * i, 7, 7), true);
+            }
+            for (i = 43; i < 50; i++)
+            {
+                pelletArray[i] = new Pellet(Content.Load<Texture2D>("white"), new Rectangle(810, -1105 + 27 * i, 7, 7), true);
+            }
+            for (i = 50; i < 53; i++)
+            {
+                pelletArray[i] = new Pellet(Content.Load<Texture2D>("white"), new Rectangle(660, -1293 + 27 * i, 7, 7), true);
+            }
+            for (i = 53; i < 77; i++)
+            {
+                pelletArray[i] = new Pellet(Content.Load<Texture2D>("white"), new Rectangle(400 + 27 * i, 30, 7, 7), true);
             }
             base.Initialize();
         }
@@ -108,7 +143,7 @@ namespace PacMan
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             spriteBatch.Draw(background, backgroundRect, Color.White);
-            for (i = 0; i < 13; i++)
+            for (i = 0; i < 77; i++)
             {
                 spriteBatch.Draw(pelletArray[i].PelletText, pelletArray[i].PelletRect, Color.White);
             }
