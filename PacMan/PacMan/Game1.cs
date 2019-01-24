@@ -176,13 +176,13 @@ namespace PacMan
 
             Blinky.texutre = spriteSheet;
 
-            Blinky2 = new Ghost(spriteSheet, new Rectangle(4, 65, 14, 14), new Rectangle(128, 64, 16, 16), new Rectangle(160, 64, 16, 16), new Rectangle(128, 80, 16, 16), new Vector2(430, 280), Color.White);
+            Blinky2 = new Ghost(spriteSheet, new Rectangle(4, 65, 16, 16), new Rectangle(128, 64, 16, 16), new Rectangle(160, 64, 16, 16), new Rectangle(128, 80, 16, 16), new Vector2(430, 280), Color.White);
 
             Pinky = new Ghost(spriteSheet, new Rectangle(3, 80, 16, 16), new Rectangle(128, 64, 16, 16), new Rectangle(160, 64, 16, 16), new Rectangle(128, 80, 16, 16), new Vector2(370, 350), Color.White);
 
-            Clyde = new Ghost(spriteSheet, new Rectangle(4, 113, 14, 14), new Rectangle(128, 64, 16, 16), new Rectangle(160, 64, 16, 16), new Rectangle(128, 80, 16, 16), new Vector2(430, 350), Color.White);
+            Clyde = new Ghost(spriteSheet, new Rectangle(4, 113, 16, 16), new Rectangle(128, 64, 16, 16), new Rectangle(160, 64, 16, 16), new Rectangle(128, 80, 16, 16), new Vector2(425, 350), Color.White);
 
-            Inky = new Ghost(spriteSheet, new Rectangle(4, 97, 14, 14), new Rectangle(128, 64, 16, 16), new Rectangle(160, 64, 16, 16), new Rectangle(128, 80, 16, 16), new Vector2(490, 350), Color.White);
+            Inky = new Ghost(spriteSheet, new Rectangle(4, 97, 16, 16), new Rectangle(128, 64, 16, 16), new Rectangle(160, 64, 16, 16), new Rectangle(128, 80, 16, 16), new Vector2(480, 350), Color.White);
         }
 
         /// <summary>
