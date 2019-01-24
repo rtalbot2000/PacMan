@@ -337,20 +337,8 @@ namespace PacMan//The Actual Workspace
             }
             Vector2 PinkyX = Pinky.Position;
 //            PinkyX.X++;
-           
-
             Vector2 PinkyY = Pinky.Position;
 //            PinkyY.Y++;
-           
-
-            Pinky.Update(timer);
-            Blinky2.Update(timer);
-            Inky.Update(timer);
-            Clyde.Update(timer);
-            Console.WriteLine("{PinkyX} let's check "+ PinkyX);
-            Console.WriteLine("{PinkyY} let's check " + PinkyY);
-            Console.WriteLine("{Rand} let's check " + rand.Next(1000));
-
             if (rand.Next(1000) < 200)
             {
                 PinkyX.X++;
@@ -380,7 +368,13 @@ namespace PacMan//The Actual Workspace
                 Pinky.Position = PinkyX;
                 Pinky.Position = PinkyY;
             }
-                
+            Pinky.Update(timer);
+            Blinky2.Update(timer);
+            Inky.Update(timer);
+            Clyde.Update(timer);
+            Console.WriteLine("{PinkyX} let's check " + PinkyX);
+            Console.WriteLine("{PinkyY} let's check " + PinkyY);
+            Console.WriteLine("{Rand} let's check " + rand.Next(1000));
             base.Update(gameTime);
         }
 
