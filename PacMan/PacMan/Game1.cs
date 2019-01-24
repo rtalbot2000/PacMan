@@ -32,6 +32,12 @@ namespace PacMan
 
         bool test;
 
+        int timer;
+        int directionPinky = 0;
+        int directionBlinky = 0;
+        int directionClyde = 0;
+        int directionInky = 0;
+
         KeyboardState oldKey;
 
         struct SprtieStruct
@@ -57,9 +63,6 @@ namespace PacMan
         Ghost Clyde;
         Ghost Inky;
 
-        int currentFrame;
-        int BlinkyX = 430;
-        int BlinkyY = 275;
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -79,7 +82,7 @@ namespace PacMan
         {
             // TODO: Add your initialization logic here
             IsMouseVisible = true;
-            currentFrame = 0;
+            timer = 0;
             backgroundRect = new Rectangle(50, 0, 800, 800);
 
             Rectangles = new Rectangle[]
@@ -150,7 +153,6 @@ namespace PacMan
             Blinky.rotation = 0;
             Blinky.origin = new Vector2(0, 0);
             Blinky.scale = 2;
-            Blinky.currentFrame = currentFrame;
             Blinky.effect = SpriteEffects.None;
             oldKey = Keyboard.GetState();
            
@@ -174,12 +176,13 @@ namespace PacMan
 
             Blinky.texutre = spriteSheet;
 
-            Console.WriteLine("{BlinkyX}:is it incrementing " + BlinkyX);
-            Console.WriteLine("{BlinkyY}:is it incrementing " + BlinkyY);
-            Blinky2 = new Ghost(spriteSheet, new Rectangle(4, 65, 14, 14), new Vector2(BlinkyX, BlinkyY), Color.White);
-            Pinky = new Ghost(spriteSheet, new Rectangle(4, 81, 14, 14), new Vector2(370, 350), Color.White);
-            Clyde = new Ghost(spriteSheet, new Rectangle(4, 113, 14, 14), new Vector2(430, 350), Color.White);
-            Inky = new Ghost(spriteSheet, new Rectangle(4, 97, 14, 14), new Vector2(490, 350), Color.White);
+            Blinky2 = new Ghost(spriteSheet, new Rectangle(4, 65, 14, 14), new Rectangle(128, 64, 16, 16), new Rectangle(160, 64, 16, 16), new Rectangle(128, 80, 16, 16), new Vector2(430, 280), Color.White);
+
+            Pinky = new Ghost(spriteSheet, new Rectangle(3, 80, 16, 16), new Rectangle(128, 64, 16, 16), new Rectangle(160, 64, 16, 16), new Rectangle(128, 80, 16, 16), new Vector2(370, 350), Color.White);
+
+            Clyde = new Ghost(spriteSheet, new Rectangle(4, 113, 14, 14), new Rectangle(128, 64, 16, 16), new Rectangle(160, 64, 16, 16), new Rectangle(128, 80, 16, 16), new Vector2(430, 350), Color.White);
+
+            Inky = new Ghost(spriteSheet, new Rectangle(4, 97, 14, 14), new Rectangle(128, 64, 16, 16), new Rectangle(160, 64, 16, 16), new Rectangle(128, 80, 16, 16), new Vector2(490, 350), Color.White);
         }
 
         /// <summary>
@@ -199,6 +202,7 @@ namespace PacMan
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
+            timer++;
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
@@ -220,13 +224,128 @@ namespace PacMan
             oldMouse = mouse;
             oldKey = key;
 
-            currentFrame++;
-
-            if (currentFrame > 1)
+            if (timer % 100 == 0)
             {
-                currentFrame = 0;
+                switch (Pinky.State)
+                {
+                    case Ghost.States.NORMAL:
+                        Pinky.State = Ghost.States.VUNERABLE;
+                        break;
+                    case Ghost.States.VUNERABLE:
+                        Pinky.State = Ghost.States.EATEN;
+                        break;
+                    case Ghost.States.EATEN:
+                        Pinky.State = Ghost.States.NORMAL;
+                        break;
+                }
+                switch (Blinky2.State)
+                {
+                    case Ghost.States.NORMAL:
+                        Blinky2.State = Ghost.States.VUNERABLE;
+                        break;
+                    case Ghost.States.VUNERABLE:
+                        Blinky2.State = Ghost.States.EATEN;
+                        break;
+                    case Ghost.States.EATEN:
+                        Blinky2.State = Ghost.States.NORMAL;
+                        break;
+                }
+                switch (Inky.State)
+                {
+                    case Ghost.States.NORMAL:
+                        Inky.State = Ghost.States.VUNERABLE;
+                        break;
+                    case Ghost.States.VUNERABLE:
+                        Inky.State = Ghost.States.EATEN;
+                        break;
+                    case Ghost.States.EATEN:
+                        Inky.State = Ghost.States.NORMAL;
+                        break;
+                }
+                switch (Clyde.State)
+                {
+                    case Ghost.States.NORMAL:
+                        Clyde.State = Ghost.States.VUNERABLE;
+                        break;
+                    case Ghost.States.VUNERABLE:
+                        Clyde.State = Ghost.States.EATEN;
+                        break;
+                    case Ghost.States.EATEN:
+                        Clyde.State = Ghost.States.NORMAL;
+                        break;
+                }
             }
-            
+            if (timer % 30 == 0)
+            {
+                switch (Pinky.Direction)
+                {
+                    case Ghost.Directions.RIGHT:
+                        Pinky.Direction = Ghost.Directions.LEFT;
+                        break;
+                    case Ghost.Directions.LEFT:
+                        Pinky.Direction = Ghost.Directions.UP;
+                        break;
+                    case Ghost.Directions.UP:
+                        Pinky.Direction = Ghost.Directions.DOWN;
+                        break;
+                    case Ghost.Directions.DOWN:
+                        Pinky.Direction = Ghost.Directions.RIGHT;
+                        break;
+                }
+                switch (Blinky2.Direction)
+                {
+                    case Ghost.Directions.RIGHT:
+                        Blinky2.Direction = Ghost.Directions.LEFT;
+                        break;
+                    case Ghost.Directions.LEFT:
+                        Blinky2.Direction = Ghost.Directions.UP;
+                        break;
+                    case Ghost.Directions.UP:
+                        Blinky2.Direction = Ghost.Directions.DOWN;
+                        break;
+                    case Ghost.Directions.DOWN:
+                        Blinky2.Direction = Ghost.Directions.RIGHT;
+                        break;
+                }
+                switch (Inky.Direction)
+                {
+                    case Ghost.Directions.RIGHT:
+                        Inky.Direction = Ghost.Directions.LEFT;
+                        break;
+                    case Ghost.Directions.LEFT:
+                        Inky.Direction = Ghost.Directions.UP;
+                        break;
+                    case Ghost.Directions.UP:
+                        Inky.Direction = Ghost.Directions.DOWN;
+                        break;
+                    case Ghost.Directions.DOWN:
+                        Inky.Direction = Ghost.Directions.RIGHT;
+                        break;
+                }
+                switch (Clyde.Direction)
+                {
+                    case Ghost.Directions.RIGHT:
+                        Clyde.Direction = Ghost.Directions.LEFT;
+                        break;
+                    case Ghost.Directions.LEFT:
+                        Clyde.Direction = Ghost.Directions.UP;
+                        break;
+                    case Ghost.Directions.UP:
+                        Clyde.Direction = Ghost.Directions.DOWN;
+                        break;
+                    case Ghost.Directions.DOWN:
+                        Clyde.Direction = Ghost.Directions.RIGHT;
+                        break;
+                }
+            }
+            //Vector2 PinkyX = Pinky.Position;
+            //PinkyX.X++;
+            //Pinky.Position = PinkyX;
+
+            Pinky.Update(timer);
+            Blinky2.Update(timer);
+            Inky.Update(timer);
+            Clyde.Update(timer);
 
             base.Update(gameTime);
         }
