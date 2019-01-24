@@ -59,6 +59,7 @@ namespace PacMan//The Actual Workspace
         Ghost Clyde;
         Ghost Inky;
 
+        Random rand = new Random();
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -172,7 +173,7 @@ namespace PacMan//The Actual Workspace
 
             Blinky.texutre = spriteSheet;
 
-            Blinky2 = new Ghost(spriteSheet, new Rectangle(4, 65, 16, 16), new Rectangle(128, 64, 16, 16), new Rectangle(160, 64, 16, 16), new Rectangle(128, 80, 16, 16), new Vector2(430, 280), Color.White);
+            Blinky2 = new Ghost(spriteSheet, new Rectangle(4, 65, 16, 16), new Rectangle(128, 64, 16, 16), new Rectangle(160, 64, 16, 16), new Rectangle(128, 80, 16, 16), new Vector2(430, 270), Color.White);
 
             Pinky = new Ghost(spriteSheet, new Rectangle(3, 80, 16, 16), new Rectangle(128, 64, 16, 16), new Rectangle(160, 64, 16, 16), new Rectangle(128, 80, 16, 16), new Vector2(370, 350), Color.White);
 
@@ -335,14 +336,31 @@ namespace PacMan//The Actual Workspace
                 }
             }
             Vector2 PinkyX = Pinky.Position;
-            PinkyX.X++;
+//            PinkyX.X++;
             Pinky.Position = PinkyX;
+
+            Vector2 PinkyY = Pinky.Position;
+//            PinkyY.Y++;
+            Pinky.Position = PinkyY;
 
             Pinky.Update(timer);
             Blinky2.Update(timer);
             Inky.Update(timer);
             Clyde.Update(timer);
-            
+            Console.WriteLine("{PinkyX} let's check "+ PinkyX);
+            Console.WriteLine("{PinkyY} let's check " + PinkyY);
+            Console.WriteLine("{Rand} let's check " + rand);
+            if (rand.Next(1000) < 200)
+                PinkyX.X++;
+            if (rand.Next(1000) < 400)
+                PinkyX.X--;
+            if (rand.Next(1000) < 600)
+                PinkyY.Y++;
+            if (rand.Next(1000) < 800)
+                PinkyY.Y--;
+            if (rand.Next(1000) == 1000)
+                PinkyX.X -= 0;
+                PinkyY.Y -= 0;
             base.Update(gameTime);
         }
 
