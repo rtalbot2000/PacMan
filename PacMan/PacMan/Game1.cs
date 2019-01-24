@@ -335,46 +335,43 @@ namespace PacMan//The Actual Workspace
                         break;
                 }
             }
-            Vector2 PinkyX = Pinky.Position;
-//            PinkyX.X++;
-            Vector2 PinkyY = Pinky.Position;
-//            PinkyY.Y++;
-            if (rand.Next(10000) < 2000)
-            {
-                    PinkyX.X++;
-                    Pinky.Position = PinkyX;
-            }
+//            Vector2 PinkyX = Pinky.Position;
+////            PinkyX.X++;
+//            Vector2 PinkyY = Pinky.Position;
+////            PinkyY.Y++;
+//            if (rand.Next(10000) < 2000)
+//            {
+//                    PinkyX.X++;
+//                    Pinky.Position = PinkyX;
+//            }
                         
-            if (rand.Next(10000) > 2001 && rand.Next(10000) < 4000 )
-            {
-                PinkyX.X--;
+//            if (rand.Next(10000) > 2001 && rand.Next(10000) < 4000 )
+//            {
+//                PinkyX.X--;
                 
-            }
-            if (rand.Next(10000) > 4001 && rand.Next(10000) < 6000)
-            {
-                PinkyY.Y++;
-                Pinky.Position = PinkyY;
-            }
-            if (rand.Next(10000) > 6001 && rand.Next(10000) < 8000)
-            {
-                PinkyY.Y--;
-                Pinky.Position = PinkyY;
-            }
+//            }
+//            if (rand.Next(10000) > 4001 && rand.Next(10000) < 6000)
+//            {
+//                PinkyY.Y++;
+//                Pinky.Position = PinkyY;
+//            }
+//            if (rand.Next(10000) > 6001 && rand.Next(10000) < 8000)
+//            {
+//                PinkyY.Y--;
+//                Pinky.Position = PinkyY;
+//            }
                 
-            if (rand.Next(10000) == 10000 )
-            {
-                PinkyX.X -= 0;
-                PinkyY.Y -= 0;
-                Pinky.Position = PinkyX;
-                Pinky.Position = PinkyY;
-            }
+//            if (rand.Next(10000) == 10000 )
+//            {
+//                PinkyX.X -= 0;
+//                PinkyY.Y -= 0;
+//                Pinky.Position = PinkyX;
+//                Pinky.Position = PinkyY;
+//            }
             Pinky.Update(timer);
             Blinky2.Update(timer);
             Inky.Update(timer);
             Clyde.Update(timer);
-            Console.WriteLine("{PinkyX} let's check " + PinkyX);
-            Console.WriteLine("{PinkyY} let's check " + PinkyY);
-            Console.WriteLine("{Rand} let's check " + rand.Next(10000));
             base.Update(gameTime);
         }
 
