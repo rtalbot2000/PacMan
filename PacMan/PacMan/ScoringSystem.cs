@@ -74,6 +74,11 @@ namespace PacMan
             lives = 3;
         }
 
+        public void LoadFont(SpriteFont font)
+        {
+            this.scoreFont = font;
+        }
+
         public Boolean collectItem(int item)
         {
             mainScore += scores[item];
@@ -130,7 +135,7 @@ namespace PacMan
         }
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(scoreFont, "HighScore"+mainScore,  scoreDisplay, scoreColor);
+            spriteBatch.DrawString(scoreFont, "SCORE "+mainScore, scoreDisplay, scoreColor);
         }
     }
 }
