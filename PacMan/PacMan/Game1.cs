@@ -30,11 +30,16 @@ namespace PacMan
 
         SpriteFont font;
 
-        public static bool TEST;
-
         KeyboardState oldKey;
 
         Rectangle left, right;
+
+        ScoringSystem score;
+
+        int beginTimer;
+        bool play;
+
+        public static bool TEST;
 
         public Game1()
         {
@@ -55,7 +60,7 @@ namespace PacMan
         {
             // TODO: Add your initialization logic here
             IsMouseVisible = true;
-            backgroundRect = new Rectangle(50, 50, 800, 800);
+            backgroundRect = new Rectangle(50, 95, 800, 800);
 
             this.IsMouseVisible = true;
 
@@ -103,7 +108,7 @@ namespace PacMan
                 new Rectangle(432, 631, 35, 105),
                 new Rectangle(519, 708, 259, 28),
                 new Rectangle(605, 631, 31, 79),
-                new Rectangle(692, 166, 87, 29), // 40
+                new Rectangle(692, 166, 89, 29), // 40
                 new Rectangle(348, 321, 74, 13),
                 new Rectangle(422, 321, 56, 13),
                 new Rectangle(478, 321, 74, 13),
@@ -114,7 +119,7 @@ namespace PacMan
 
             for(int i = 0; i < collisions.Length; i++)
             {
-                collisions[i].Y += 50;
+                collisions[i].Y += backgroundRect.Y;
             }
 
             left = new Rectangle(0, 0, 50, graphics.PreferredBackBufferHeight);
@@ -124,6 +129,11 @@ namespace PacMan
             TEST = false;
             oldKey = Keyboard.GetState();
 
+            score = new ScoringSystem(new Vector2(350, 20), null, Color.White);
+
+            beginTimer = 300;
+            play = false;
+            
             base.Initialize();
         }
 
@@ -142,8 +152,7 @@ namespace PacMan
             testPixel = this.Content.Load<Texture2D>("pixel");
             font = this.Content.Load<SpriteFont>("SpriteFont1");
 
-            pacMan = new PacMan(new Rectangle(432, 480, 38, 38), spriteSheet, 
-                collisions, left, right);
+            score.LoadFont(font);
         }
 
 
@@ -170,6 +179,22 @@ namespace PacMan
             // TODO: Add your update logic here
             MouseState mouse = Mouse.GetState();
             KeyboardState key = Keyboard.GetState();
+
+            if(!play)
+            {
+                beginTimer--;
+
+                if(beginTimer <= 0)
+                {
+                    play = true;
+                    
+                }
+
+                pacMan = new PacMan(new Rectangle(432, 520, 38, 38), spriteSheet,
+                collisions, left, right);
+
+                base.Update(gameTime);
+            }
 
             if(mouse.LeftButton == ButtonState.Pressed &&
                 oldMouse.LeftButton != ButtonState.Pressed)
@@ -221,7 +246,17 @@ namespace PacMan
                 }
             }
 
-            pacMan.Draw(gameTime, spriteBatch);
+            if(play)
+            {
+                pacMan.Draw(gameTime, spriteBatch);
+                score.Draw(spriteBatch);
+            } else
+            {
+                Vector2 measure = font.MeasureString("READY!");
+
+                spriteBatch.DrawString(font, "READY!", new Vector2(450 - measure.X / 2, 525),
+                    Color.Yellow);
+            }
 
             spriteBatch.Draw(testPixel, left, Color.Black);
             spriteBatch.Draw(testPixel, right, Color.Black);
