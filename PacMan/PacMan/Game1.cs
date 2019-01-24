@@ -37,7 +37,8 @@ namespace PacMan//The Actual Workspace
         int directionBlinky = 0;
         int directionClyde = 0;
         int directionInky = 0;
-
+        Boolean isPowerPelletActive = false;
+        Boolean isGhostEaten = false;
         KeyboardState oldKey;
 
         struct SprtieStruct
@@ -226,7 +227,7 @@ namespace PacMan//The Actual Workspace
                 switch (Pinky.State)
                 {
                     case Ghost.States.NORMAL:
-                        Pinky.State = Ghost.States.VUNERABLE;
+                        Pinky.State = Ghost.States.NORMAL;
                         break;
                     case Ghost.States.VUNERABLE:
                         Pinky.State = Ghost.States.EATEN;
@@ -238,7 +239,7 @@ namespace PacMan//The Actual Workspace
                 switch (Blinky2.State)
                 {
                     case Ghost.States.NORMAL:
-                        Blinky2.State = Ghost.States.VUNERABLE;
+                        Blinky2.State = Ghost.States.NORMAL;
                         break;
                     case Ghost.States.VUNERABLE:
                         Blinky2.State = Ghost.States.EATEN;
@@ -250,7 +251,7 @@ namespace PacMan//The Actual Workspace
                 switch (Inky.State)
                 {
                     case Ghost.States.NORMAL:
-                        Inky.State = Ghost.States.VUNERABLE;
+                        Inky.State = Ghost.States.NORMAL;
                         break;
                     case Ghost.States.VUNERABLE:
                         Inky.State = Ghost.States.EATEN;
@@ -262,7 +263,7 @@ namespace PacMan//The Actual Workspace
                 switch (Clyde.State)
                 {
                     case Ghost.States.NORMAL:
-                        Clyde.State = Ghost.States.VUNERABLE;
+                        Clyde.State = Ghost.States.NORMAL;
                         break;
                     case Ghost.States.VUNERABLE:
                         Clyde.State = Ghost.States.EATEN;
