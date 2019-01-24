@@ -14,28 +14,36 @@ namespace PacMan
     {
         Rectangle fruitRect;
         Texture2D image;
+        Rectangle spriteSheetRect = new Rectangle(0, 0, 227, 160);
         private Rectangle[] fruitRects = new Rectangle[] {
-            new Rectangle(32, 48, 16, 16),
-            new Rectangle(48, 48, 16, 16),
-            new Rectangle(64, 48, 16, 16),
-            new Rectangle(80, 48, 16, 16),
-            new Rectangle(96, 48, 16, 16),
-            new Rectangle(112, 48, 16, 16),
-            new Rectangle(128, 48, 16, 16),
-            new Rectangle(144, 48, 16, 16)
+            new Rectangle(36, 48, 15, 15),
+            new Rectangle(52, 48, 15, 15),
+            new Rectangle(68, 48, 15, 15),
+            new Rectangle(84, 48, 15, 15),
+            new Rectangle(100, 48, 15, 15),
+            new Rectangle(116, 48, 15, 15),
+            new Rectangle(132, 48, 15, 15),
+            new Rectangle(148, 48, 15, 15)
         };
         private int[] time = new int[] {10, 9, 8, 7, 6, 5, 4, 2};
-        public Fruit(int level)
+        int choice;
+        public Fruit(int choice)
         {
-            fruitRect = fruitRects[level];
+            fruitRect = fruitRects[choice];
+            this.choice = choice;
         }
-        public void setRect(int level)
+        public void setFruit(int choice)
         {
-            fruitRect = fruitRects[level];
+            fruitRect = fruitRects[choice];
+            this.choice = choice;
         }
-        protected Boolean DrawFruit()
+        public Rectangle getFruitRect()
         {
-
+            return fruitRect;
+        }
+        public int getTime()
+        {
+            return time[choice];
         }
     }
 }

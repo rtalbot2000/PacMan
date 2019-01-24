@@ -102,7 +102,7 @@ namespace PacMan
                 }
             }
 
-                switch (item)
+            switch (item)
             {
                 case PAC_DOT:
                     mainScore += VALUE_PAC_DOT;

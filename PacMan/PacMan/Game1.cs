@@ -24,7 +24,6 @@ namespace PacMan
         Rectangle[] Origin;
         Rectangle backgroundRect;
 
-
         Rectangle[] collisions;
 
         MouseState oldMouse;
@@ -32,6 +31,16 @@ namespace PacMan
         SpriteFont font;
 
         bool test;
+
+        int timer = 0;
+
+        Fruit currentFruit = new Fruit(0);
+
+        Boolean fruitSpawned = false;
+
+        Random rand = new Random();
+
+        int fruitTimer = 0;
 
         KeyboardState oldKey;
 
@@ -60,6 +69,8 @@ namespace PacMan
             {
 
             };
+
+            ScoringSystem score = new ScoringSystem(new Vector2(0, 0), font, Color.White);
 
             this.IsMouseVisible = true;
 
@@ -136,6 +147,7 @@ namespace PacMan
             spriteSheet = this.Content.Load<Texture2D>("spritesheet");
             testPixel = this.Content.Load<Texture2D>("pixel");
             font = this.Content.Load<SpriteFont>("SpriteFont1");
+            
         }
 
         /// <summary>
@@ -157,7 +169,24 @@ namespace PacMan
             // Allows the game to exit
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
-
+            Random rand = new Random();
+            if (timer % 600 == 0 || timer == 0)
+            {
+                int fruitValue = rand.Next(0, 8);
+                currentFruit.setFruit(fruitValue);
+                fruitSpawned = true;
+            }
+            timer++;
+            if (fruitSpawned)
+            {
+                fruitTimer++;
+            }
+            if (fruitTimer >= currentFruit.getTime() * 60)
+            {
+                fruitSpawned = false;
+                fruitTimer = 0;
+                timer = 1;
+            }
             // TODO: Add your update logic here
             MouseState mouse = Mouse.GetState();
             KeyboardState key = Keyboard.GetState();
@@ -206,7 +235,11 @@ namespace PacMan
                     spriteBatch.DrawString(font, i + "", measure, Color.LightGreen);
                 }
             }
-            
+
+            if (fruitSpawned)
+            {
+                spriteBatch.Draw(spriteSheet, new Rectangle(435, 435, 30, 30), currentFruit.getFruitRect(), Color.WhiteSmoke);
+            }
             spriteBatch.End();
 
             base.Draw(gameTime);
