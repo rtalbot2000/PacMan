@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
@@ -17,6 +18,8 @@ namespace PacMan
         int state, timer;
         bool dead;
 
+        SoundEffectInstance chomp; 
+
         public PacMan(Rectangle rect, Texture2D text, Rectangle[] collisions,
             Rectangle left, Rectangle right)
         {
@@ -31,6 +34,8 @@ namespace PacMan
             this.ahead = Rectangle.Empty;
             this.dead = false;
 
+            this.chomp = SoundSystem.Chomp.CreateInstance();
+
             state = 0;
             timer = 0;
         }
@@ -42,7 +47,7 @@ namespace PacMan
             {
                 timer++;
 
-                if(timer == 15)
+                if(timer == 6)
                 {
                     timer = 0;
                     if(state < 11)
@@ -110,6 +115,16 @@ namespace PacMan
             if(!willCollide)
             {
                 rect = moveRect;
+                if(chomp.State == SoundState.Stopped)
+                {
+                    chomp.Play();
+                }
+            } else
+            {
+                if (chomp.State == SoundState.Playing)
+                {
+                    chomp.Stop();
+                }
             }
 
             Rectangle c1 = Rectangle.Empty, c2 = Rectangle.Empty, off1 = rect, off2 = rect;
@@ -167,12 +182,12 @@ namespace PacMan
 
             }
 
-            if(rect.X + rect.Width < left.X + left.Width)
+            if(rect.X + rect.Width < left.X + left.Width && dir == Direction.LEFT)
             {
                 rect.X = right.X;
             } else if(rect.X > right.X)
             {
-                rect.X = left.X + left.Width;
+                rect.X = left.X;
             }
 
             timer++;
@@ -192,12 +207,14 @@ namespace PacMan
             source = new Rectangle(3 + 16 * state, 1 + (16 * (int)dir), 14, 14);
         }
 
-        public void GameOver()
+        public void Kill()
         {
             this.dead = true;
 
             timer = 0;
             state = 0;
+
+            SoundSystem.Death.Play();
         }
 
         public void switchDir(Direction dir)

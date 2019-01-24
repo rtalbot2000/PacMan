@@ -131,7 +131,7 @@ namespace PacMan
 
             score = new ScoringSystem(new Vector2(350, 20), null, Color.White);
 
-            beginTimer = 300;
+            beginTimer = 240;
             play = false;
             
             base.Initialize();
@@ -151,6 +151,9 @@ namespace PacMan
             spriteSheet = this.Content.Load<Texture2D>("spritesheet");
             testPixel = this.Content.Load<Texture2D>("pixel");
             font = this.Content.Load<SpriteFont>("SpriteFont1");
+
+            SoundSystem.LoadSounds(this.Content);
+            SoundSystem.Begin.Play();
 
             score.LoadFont(font);
         }
@@ -209,7 +212,7 @@ namespace PacMan
 
             if(key.IsKeyDown(Keys.M) && !oldKey.IsKeyDown(Keys.M))
             {
-                pacMan.GameOver();
+                pacMan.Kill();
             }
 
             pacMan.Update(gameTime, key, oldKey);

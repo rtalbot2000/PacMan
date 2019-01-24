@@ -63,6 +63,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="ScoringSystem.cs" />
+    <Compile Include="SoundSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
