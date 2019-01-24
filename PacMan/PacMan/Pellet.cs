@@ -50,19 +50,21 @@ namespace PacMan
             }
         }
 
-        public Pellet(Texture2D p, Rectangle pr, bool power)
+        public Pellet(Rectangle pr, bool power)
         {
-            pellet = p;
             pelletRect = pr;
             pelletXLocation = pr.X;
             pelletYLocation = pr.Y;
             this.power = power;
         }
 
+        public void LoadTexture(Texture2D texture)
+        {
+            this.pellet = texture;
+        }
+
         public void Update(GameTime gametime)
         {
-            //pelletRect.X = pelletXLocation;
-            //pelletXLocation = 10;
 
         }
     }
