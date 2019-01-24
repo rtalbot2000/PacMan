@@ -339,29 +339,29 @@ namespace PacMan//The Actual Workspace
 //            PinkyX.X++;
             Vector2 PinkyY = Pinky.Position;
 //            PinkyY.Y++;
-            if (rand.Next(1000) < 200)
+            if (rand.Next(10000) < 2000)
             {
-                PinkyX.X++;
-                Pinky.Position = PinkyX;
+                    PinkyX.X++;
+                    Pinky.Position = PinkyX;
             }
                         
-            if (rand.Next(1000) > 201 && rand.Next(1000) < 400 )
+            if (rand.Next(10000) > 2001 && rand.Next(10000) < 4000 )
             {
                 PinkyX.X--;
                 
             }
-            if (rand.Next(1000) > 401 && rand.Next(1000) < 600)
+            if (rand.Next(10000) > 4001 && rand.Next(10000) < 6000)
             {
                 PinkyY.Y++;
                 Pinky.Position = PinkyY;
             }
-            if (rand.Next(1000) > 601 && rand.Next(1000) < 800)
+            if (rand.Next(10000) > 6001 && rand.Next(10000) < 8000)
             {
                 PinkyY.Y--;
                 Pinky.Position = PinkyY;
             }
                 
-            if (rand.Next(1000) == 1000 )
+            if (rand.Next(10000) == 10000 )
             {
                 PinkyX.X -= 0;
                 PinkyY.Y -= 0;
@@ -374,7 +374,7 @@ namespace PacMan//The Actual Workspace
             Clyde.Update(timer);
             Console.WriteLine("{PinkyX} let's check " + PinkyX);
             Console.WriteLine("{PinkyY} let's check " + PinkyY);
-            Console.WriteLine("{Rand} let's check " + rand.Next(1000));
+            Console.WriteLine("{Rand} let's check " + rand.Next(10000));
             base.Update(gameTime);
         }
 
