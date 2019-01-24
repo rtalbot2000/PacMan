@@ -15,7 +15,7 @@ namespace PacMan
         Rectangle rect, source, ahead, left, right;
         Texture2D text;
         Rectangle[] coll;
-        int state, timer;
+        int state, timer, lives;
         bool dead;
 
         SoundEffectInstance chomp; 
@@ -33,6 +33,7 @@ namespace PacMan
             this.dir = Direction.LEFT;
             this.ahead = Rectangle.Empty;
             this.dead = false;
+            this.lives = 3;
 
             this.chomp = SoundSystem.Chomp.CreateInstance();
 
@@ -207,7 +208,7 @@ namespace PacMan
             source = new Rectangle(3 + 16 * state, 1 + (16 * (int)dir), 14, 14);
         }
 
-        public void Kill()
+        public bool Kill()
         {
             this.dead = true;
 
@@ -215,6 +216,11 @@ namespace PacMan
             state = 0;
 
             SoundSystem.Death.Play();
+
+            this.lives--;
+            Console.WriteLine(lives);
+
+            return lives > 0;
         }
 
         public void switchDir(Direction dir)

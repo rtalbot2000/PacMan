@@ -37,7 +37,7 @@ namespace PacMan
         ScoringSystem score;
 
         int beginTimer;
-        bool play;
+        bool play, gameOver;
 
         public static bool TEST;
 
@@ -133,6 +133,7 @@ namespace PacMan
 
             beginTimer = 240;
             play = false;
+            gameOver = false;
             
             base.Initialize();
         }
@@ -183,6 +184,11 @@ namespace PacMan
             MouseState mouse = Mouse.GetState();
             KeyboardState key = Keyboard.GetState();
 
+            if(gameOver)
+            {
+                base.Update(gameTime);
+            }
+
             if(!play)
             {
                 beginTimer--;
@@ -212,7 +218,7 @@ namespace PacMan
 
             if(key.IsKeyDown(Keys.M) && !oldKey.IsKeyDown(Keys.M))
             {
-                pacMan.Kill();
+                gameOver = pacMan.Kill();
             }
 
             pacMan.Update(gameTime, key, oldKey);
@@ -249,11 +255,19 @@ namespace PacMan
                 }
             }
 
-            if(play)
+            if (play)
             {
                 pacMan.Draw(gameTime, spriteBatch);
                 score.Draw(spriteBatch);
-            } else
+            }
+            else if (gameOver)
+            {
+                Vector2 measure = font.MeasureString("GAME OVER!");
+
+                spriteBatch.DrawString(font, "GAME OVER!", new Vector2(450 - measure.X / 2, 525),
+                    Color.DarkRed);
+            }
+            else
             {
                 Vector2 measure = font.MeasureString("READY!");
 
