@@ -218,9 +218,8 @@ namespace PacMan
             SoundSystem.Death.Play();
 
             this.lives--;
-            Console.WriteLine(lives);
 
-            return lives > 0;
+            return lives <= 0;
         }
 
         public void switchDir(Direction dir)

@@ -219,6 +219,7 @@ namespace PacMan
             if(key.IsKeyDown(Keys.M) && !oldKey.IsKeyDown(Keys.M))
             {
                 gameOver = pacMan.Kill();
+                Console.WriteLine(gameOver);
             }
 
             pacMan.Update(gameTime, key, oldKey);
@@ -255,17 +256,18 @@ namespace PacMan
                 }
             }
 
-            if (play)
-            {
-                pacMan.Draw(gameTime, spriteBatch);
-                score.Draw(spriteBatch);
-            }
-            else if (gameOver)
+            if (gameOver)
             {
                 Vector2 measure = font.MeasureString("GAME OVER!");
 
                 spriteBatch.DrawString(font, "GAME OVER!", new Vector2(450 - measure.X / 2, 525),
                     Color.DarkRed);
+                
+            }
+            else if (play)
+            {
+                pacMan.Draw(gameTime, spriteBatch);
+                score.Draw(spriteBatch);
             }
             else
             {
