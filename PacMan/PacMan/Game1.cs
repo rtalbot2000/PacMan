@@ -230,7 +230,13 @@ namespace PacMan
             {
                 pelletArray[i] = new Pellet(new Rectangle(260 + 27 * (i - 182), 600, 7, 7), true);
             }
-            for (i = 188; i < 194; i++)
+            for(i = 0; i < pelletArray.Length; i++)
+            {
+                if (pelletArray[i] == null)
+                    continue;
+                pelletArray[i].PelletYLocation += backgroundRect.Y;
+            }
+            for (i = 0; i < collisions.Length; i++)
             {
                 collisions[i].Y += backgroundRect.Y;
             }
@@ -395,6 +401,13 @@ namespace PacMan
             {
                 pacMan.Draw(gameTime, spriteBatch);
                 score.Draw(spriteBatch);
+
+                foreach(Pellet p in pelletArray)
+                {
+                    if (p == null)
+                        continue;
+                    spriteBatch.Draw(p.PelletText, p.PelletRect, Color.White);
+                }
             }
             else
             {

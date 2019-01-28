@@ -32,6 +32,11 @@ namespace PacMan
             {
                 return pelletYLocation;
             }
+            set
+            {
+                pelletYLocation = value;
+                pelletRect.Y = value;
+            }
         }
 
         public int PelletXLocation
