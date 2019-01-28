@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-namespace PacMan
+namespace PacMan//The Actual Workspace
 {
     /// <summary>
     /// This is the main type for your game
@@ -30,13 +30,40 @@ namespace PacMan
 
         SpriteFont font;
 
+        bool test;
+
+        int timer;
+        int directionPinky = 0;
+        int directionBlinky = 0;
+        int directionClyde = 0;
+        int directionInky = 0;
+        Boolean isPowerPelletActive = false;
+        Boolean isGhostEaten = false;
         KeyboardState oldKey;
 
+        struct SprtieStruct
+        {
+            public Texture2D texutre;
+            public Vector2 position;
+            public Rectangle source;
+            public Color color;
+            public float rotation;
+            public Vector2 origin;
+            public float scale;
+            public SpriteEffects effect;
+        }
+        SprtieStruct Sprite;
+        SprtieStruct Blinky;//Red
+
+        Ghost Blinky2;
+        Ghost Pinky;
+        Ghost Clyde;
+        Ghost Inky;
+
+        Random rand = new Random();
         Rectangle left, right;
 
         ScoringSystem score;
-
-        Pellet[] pelletArray;
 
         int beginTimer;
         bool play, gameOver;
@@ -62,7 +89,8 @@ namespace PacMan
         {
             // TODO: Add your initialization logic here
             IsMouseVisible = true;
-            backgroundRect = new Rectangle(50, 95, 800, 800);
+            timer = 0;
+            backgroundRect = new Rectangle(50, 0, 800, 800);
 
             this.IsMouseVisible = true;
 
@@ -110,7 +138,7 @@ namespace PacMan
                 new Rectangle(432, 631, 35, 105),
                 new Rectangle(519, 708, 259, 28),
                 new Rectangle(605, 631, 31, 79),
-                new Rectangle(692, 166, 89, 29), // 40
+                new Rectangle(692, 166, 87, 29), // 40
                 new Rectangle(348, 321, 74, 13),
                 new Rectangle(422, 321, 56, 13),
                 new Rectangle(478, 321, 74, 13),
@@ -121,7 +149,6 @@ namespace PacMan
 
             pelletArray = new Pellet[243];
 
-            int i = 0;
             for (i = 0; i < 13; i++)
             {
                 pelletArray[i] = new Pellet(new Rectangle(83 + 27 * i, 30, 7, 7), true);
@@ -230,18 +257,10 @@ namespace PacMan
             {
                 pelletArray[i] = new Pellet(new Rectangle(260 + 27 * (i - 182), 600, 7, 7), true);
             }
-            for(i = 0; i < pelletArray.Length; i++)
-            {
-                if (pelletArray[i] == null)
-                    continue;
-                pelletArray[i].PelletYLocation += backgroundRect.Y;
-            }
-            for (i = 0; i < collisions.Length; i++)
+            for (i = 188; i < 194; i++)
             {
                 collisions[i].Y += backgroundRect.Y;
             }
-
-            pelletArray[i] = new Pellet(new Rectangle(490 + 27 * (i - 188), 600, 7, 7), true);
 
             left = new Rectangle(0, 0, 50, graphics.PreferredBackBufferHeight);
             right = new Rectangle(graphics.PreferredBackBufferWidth - 50, 0, 50,
@@ -250,12 +269,6 @@ namespace PacMan
             TEST = false;
             oldKey = Keyboard.GetState();
 
-            score = new ScoringSystem(new Vector2(350, 20), null, Color.White);
-
-            beginTimer = 240;
-            play = false;
-            gameOver = false;
-            
             base.Initialize();
         }
 
@@ -271,25 +284,8 @@ namespace PacMan
             // TODO: use this.Content to load your game content here
             background = this.Content.Load<Texture2D>("better");
             spriteSheet = this.Content.Load<Texture2D>("spritesheet");
-
-            Texture2D pelletText = this.Content.Load<Texture2D>("white");
-
-            foreach(Pellet p in pelletArray)
-            {
-                if (p == null)
-                {
-                    continue;
-                }
-
-                p.LoadTexture(pelletText);
-            }
             testPixel = this.Content.Load<Texture2D>("pixel");
             font = this.Content.Load<SpriteFont>("SpriteFont1");
-
-            SoundSystem.LoadSounds(this.Content);
-            SoundSystem.Begin.Play();
-
-            score.LoadFont(font);
         }
 
 
@@ -310,6 +306,7 @@ namespace PacMan
         protected override void Update(GameTime gameTime)
         {
             // Allows the game to exit
+            timer++;
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 this.Exit();
 
@@ -360,6 +357,157 @@ namespace PacMan
             oldMouse = mouse;
             oldKey = key;
 
+            if (timer % 100 == 0)
+            {
+                switch (Pinky.State)
+                {
+                    case Ghost.States.NORMAL:
+                        Pinky.State = Ghost.States.NORMAL;
+                        break;
+                    case Ghost.States.VUNERABLE:
+                        Pinky.State = Ghost.States.EATEN;
+                        break;
+                    case Ghost.States.EATEN:
+                        Pinky.State = Ghost.States.NORMAL;
+                        break;
+                }
+                switch (Blinky2.State)
+                {
+                    case Ghost.States.NORMAL:
+                        Blinky2.State = Ghost.States.NORMAL;
+                        break;
+                    case Ghost.States.VUNERABLE:
+                        Blinky2.State = Ghost.States.EATEN;
+                        break;
+                    case Ghost.States.EATEN:
+                        Blinky2.State = Ghost.States.NORMAL;
+                        break;
+                }
+                switch (Inky.State)
+                {
+                    case Ghost.States.NORMAL:
+                        Inky.State = Ghost.States.NORMAL;
+                        break;
+                    case Ghost.States.VUNERABLE:
+                        Inky.State = Ghost.States.EATEN;
+                        break;
+                    case Ghost.States.EATEN:
+                        Inky.State = Ghost.States.NORMAL;
+                        break;
+                }
+                switch (Clyde.State)
+                {
+                    case Ghost.States.NORMAL:
+                        Clyde.State = Ghost.States.NORMAL;
+                        break;
+                    case Ghost.States.VUNERABLE:
+                        Clyde.State = Ghost.States.EATEN;
+                        break;
+                    case Ghost.States.EATEN:
+                        Clyde.State = Ghost.States.NORMAL;
+                        break;
+                }
+            }
+            if (timer % 30 == 0)
+            {
+                switch (Pinky.Direction)
+                {
+                    case Ghost.Directions.RIGHT:
+                        Pinky.Direction = Ghost.Directions.LEFT;
+                        break;
+                    case Ghost.Directions.LEFT:
+                        Pinky.Direction = Ghost.Directions.UP;
+                        break;
+                    case Ghost.Directions.UP:
+                        Pinky.Direction = Ghost.Directions.DOWN;
+                        break;
+                    case Ghost.Directions.DOWN:
+                        Pinky.Direction = Ghost.Directions.RIGHT;
+                        break;
+                }
+                switch (Blinky2.Direction)
+                {
+                    case Ghost.Directions.RIGHT:
+                        Blinky2.Direction = Ghost.Directions.LEFT;
+                        break;
+                    case Ghost.Directions.LEFT:
+                        Blinky2.Direction = Ghost.Directions.UP;
+                        break;
+                    case Ghost.Directions.UP:
+                        Blinky2.Direction = Ghost.Directions.DOWN;
+                        break;
+                    case Ghost.Directions.DOWN:
+                        Blinky2.Direction = Ghost.Directions.RIGHT;
+                        break;
+                }
+                switch (Inky.Direction)
+                {
+                    case Ghost.Directions.RIGHT:
+                        Inky.Direction = Ghost.Directions.LEFT;
+                        break;
+                    case Ghost.Directions.LEFT:
+                        Inky.Direction = Ghost.Directions.UP;
+                        break;
+                    case Ghost.Directions.UP:
+                        Inky.Direction = Ghost.Directions.DOWN;
+                        break;
+                    case Ghost.Directions.DOWN:
+                        Inky.Direction = Ghost.Directions.RIGHT;
+                        break;
+                }
+                switch (Clyde.Direction)
+                {
+                    case Ghost.Directions.RIGHT:
+                        Clyde.Direction = Ghost.Directions.LEFT;
+                        break;
+                    case Ghost.Directions.LEFT:
+                        Clyde.Direction = Ghost.Directions.UP;
+                        break;
+                    case Ghost.Directions.UP:
+                        Clyde.Direction = Ghost.Directions.DOWN;
+                        break;
+                    case Ghost.Directions.DOWN:
+                        Clyde.Direction = Ghost.Directions.RIGHT;
+                        break;
+                }
+            }
+//            Vector2 PinkyX = Pinky.Position;
+////            PinkyX.X++;
+//            Vector2 PinkyY = Pinky.Position;
+////            PinkyY.Y++;
+//            if (rand.Next(10000) < 2000)
+//            {
+//                    PinkyX.X++;
+//                    Pinky.Position = PinkyX;
+//            }
+                        
+//            if (rand.Next(10000) > 2001 && rand.Next(10000) < 4000 )
+//            {
+//                PinkyX.X--;
+                
+//            }
+//            if (rand.Next(10000) > 4001 && rand.Next(10000) < 6000)
+//            {
+//                PinkyY.Y++;
+//                Pinky.Position = PinkyY;
+//            }
+//            if (rand.Next(10000) > 6001 && rand.Next(10000) < 8000)
+//            {
+//                PinkyY.Y--;
+//                Pinky.Position = PinkyY;
+//            }
+                
+//            if (rand.Next(10000) == 10000 )
+//            {
+//                PinkyX.X -= 0;
+//                PinkyY.Y -= 0;
+//                Pinky.Position = PinkyX;
+//                Pinky.Position = PinkyY;
+//            }
+            Pinky.Update(timer);
+            Blinky2.Update(timer);
+            Inky.Update(timer);
+            Clyde.Update(timer);
             base.Update(gameTime);
         }
 
@@ -375,7 +523,7 @@ namespace PacMan
             spriteBatch.Begin();
             spriteBatch.Draw(background, backgroundRect, Color.White);
             
-            if(TEST)
+            if(test)
             {
                 for (int i = 0; i < collisions.Length; i++)
                 {
@@ -401,13 +549,6 @@ namespace PacMan
             {
                 pacMan.Draw(gameTime, spriteBatch);
                 score.Draw(spriteBatch);
-
-                foreach(Pellet p in pelletArray)
-                {
-                    if (p == null)
-                        continue;
-                    spriteBatch.Draw(p.PelletText, p.PelletRect, Color.White);
-                }
             }
             else
             {
@@ -416,10 +557,7 @@ namespace PacMan
                 spriteBatch.DrawString(font, "READY!", new Vector2(450 - measure.X / 2, 525),
                     Color.Yellow);
             }
-
-            spriteBatch.Draw(testPixel, left, Color.Black);
-            spriteBatch.Draw(testPixel, right, Color.Black);
-
+            
             spriteBatch.End();
 
             base.Draw(gameTime);
