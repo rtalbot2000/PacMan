@@ -36,6 +36,8 @@ namespace PacMan
 
         ScoringSystem score;
 
+        Pellet[] pelletArray;
+
         int beginTimer;
         bool play, gameOver;
 
@@ -119,6 +121,7 @@ namespace PacMan
 
             pelletArray = new Pellet[243];
 
+            int i = 0;
             for (i = 0; i < 13; i++)
             {
                 pelletArray[i] = new Pellet(new Rectangle(83 + 27 * i, 30, 7, 7), true);
@@ -232,6 +235,8 @@ namespace PacMan
                 collisions[i].Y += backgroundRect.Y;
             }
 
+            pelletArray[i] = new Pellet(new Rectangle(490 + 27 * (i - 188), 600, 7, 7), true);
+
             left = new Rectangle(0, 0, 50, graphics.PreferredBackBufferHeight);
             right = new Rectangle(graphics.PreferredBackBufferWidth - 50, 0, 50,
                 graphics.PreferredBackBufferHeight);
@@ -245,8 +250,6 @@ namespace PacMan
             play = false;
             gameOver = false;
             
-                pelletArray[i] = new Pellet(new Rectangle(490 + 27 * (i - 188), 600, 7, 7), true);
-            }
             base.Initialize();
         }
 
